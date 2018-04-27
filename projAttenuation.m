@@ -34,14 +34,6 @@ fprintf('OK\n');
 
 function output=SSBoll79(signal,fs,IS)
 
-% OUTPUT=SSBOLL79(S,FS,IS)
-% Spectral Subtraction based on Boll 79. Amplitude spectral subtraction 
-% Includes Magnitude Averaging and Residual noise Reduction
-% S is the noisy signal, FS is the sampling frequency and IS is the initial
-% silence (noise only) length in seconds (default value is .25 sec)
-%
-% April-05
-% Esfandiar Zavarehei
 
 if (nargin<3 | isstruct(IS))
     IS=.25; %seconds
@@ -119,20 +111,6 @@ end
 
 function [NoiseFlag, SpeechFlag, NoiseCounter, Dist]=vad(signal,noise,NoiseCounter,NoiseMargin,Hangover)
 
-%[NOISEFLAG, SPEECHFLAG, NOISECOUNTER, DIST]=vad(SIGNAL,NOISE,NOISECOUNTER,NOISEMARGIN,HANGOVER)
-%Spectral Distance Voice Activity Detector
-%SIGNAL is the the current frames magnitude spectrum which is to labeld as
-%noise or speech, NOISE is noise magnitude spectrum template (estimation),
-%NOISECOUNTER is the number of imediate previous noise frames, NOISEMARGIN
-%(default 3)is the spectral distance threshold. HANGOVER ( default 8 )is
-%the number of noise segments after which the SPEECHFLAG is reset (goes to
-%zero). NOISEFLAG is set to one if the the segment is labeld as noise
-%NOISECOUNTER returns the number of previous noise segments, this value is
-%reset (to zero) whenever a speech segment is detected. DIST is the
-%spectral distance. 
-%Saeed Vaseghi
-%edited by Esfandiar Zavarehei
-%Sep-04
 
 if nargin<4
     NoiseMargin=3;
@@ -170,14 +148,6 @@ end
 
 function Seg=segment(signal,W,SP,Window)
 
-% SEGMENT chops a signal to overlapping windowed segments
-% A= SEGMENT(X,W,SP,WIN) returns a matrix which its columns are segmented
-% and windowed frames of the input one dimentional signal, X. W is the
-% number of samples per window, default value W=256. SP is the shift
-% percentage, default value SP=0.4. WIN is the window that is multiplied by
-% each segment and its length should be W. the default window is hamming
-% window.
-
 Window=Window(:); %make it a column vector
 
 L=length(signal);
@@ -192,19 +162,6 @@ end
 
 function ReconstructedSignal=OverlapAdd2(XNEW,yphase,windowLen,ShiftLen);
 
-%Y=OverlapAdd(X,A,W,S);
-%Y is the signal reconstructed signal from its spectrogram. X is a matrix
-%with each column being the fft of a segment of signal. A is the phase
-%angle of the spectrum which should have the same dimension as X. if it is
-%not given the phase angle of X is used which in the case of real values is
-%zero (assuming that its the magnitude). W is the window length of time
-%domain segments if not given the length is assumed to be twice as long as
-%fft window length. S is the shift length of the segmentation process ( for
-%example in the case of non overlapping signals it is equal to W and in the
-%case of %50 overlap is equal to W/2. if not givven W/2 is used. Y is the
-%reconstructed time domain signal.
-%Sep-04
-%Esfandiar Zavarehei
 
 if nargin<2 %Number of function input arguments
     yphase=angle(XNEW);
